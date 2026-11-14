@@ -242,7 +242,21 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 .slot i{display:block;width:14px;height:14px;border-radius:50%;border:1.5px solid #C6BAA7}
 .slot-label{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.18em;color:var(--faint);white-space:nowrap}
 .slot-label b{font-family:var(--mono);font-weight:400;font-size:8.5px;color:#B0A695}
-.stage-note{font-size:11px;line-height:1.8;color:var(--soft);text-align:center;max-width:100%;flex:none}
+.shuffle{position:relative;width:clamp(92px,9vw,140px);aspect-ratio:1/1.72;margin:clamp(10px,3.5vh,44px) 0}
+.shuffle i{
+  position:absolute;inset:0;border:1px solid var(--backLine);border-radius:3px;background:var(--back);
+  transform-origin:50% 90%;
+  animation:fan 1.05s cubic-bezier(.42,0,.3,1) both;
+  animation-delay:calc(var(--i) * 45ms);
+}
+.shuffle i::before{content:"";position:absolute;inset:7%;border:1px solid var(--backLine);border-radius:2px}
+.shuffle i::after{content:"";position:absolute;left:50%;top:50%;width:12%;aspect-ratio:1;margin:-6% 0 0 -6%;border-radius:50%;border:1.5px solid var(--acc)}
+@keyframes fan{
+  0%,100%{transform:translate(var(--dx,0),var(--dy,0)) rotate(0deg)}
+  42%,58%{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r))}
+}
+.stage-note{font-size:11px;line-height:1.8;color:var(--soft);text-align:center;max-width:100%;flex:none;transition:opacity .9s ease}
+.stage-note.faded{opacity:0}
 
 .numgrid-wrap{
   width:100%;display:flex;justify-content:center;align-items:flex-start;padding:2px 2px 6px;
@@ -409,6 +423,35 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
   background:var(--ink);color:var(--paper);font-size:11.5px;letter-spacing:.1em;
   padding:11px 20px;border-radius:2px;z-index:60;animation:up .22s ease;
 }
+/* ---------- motion ---------- */
+@keyframes vtOut{to{opacity:0}}
+@keyframes vtIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes popIn{0%{transform:scale(.9)}60%{transform:scale(1.03)}100%{transform:none}}
+
+::view-transition-old(root){animation:vtOut .18s ease both}
+::view-transition-new(root){animation:vtIn .32s cubic-bezier(.2,.7,.3,1) both}
+.page-in{animation:vtIn .32s cubic-bezier(.2,.7,.3,1) both}
+
+.cards-3 > *,.cards-1 > figure,.cards-ab .block,.cur-wrap > figure{animation:riseIn .55s cubic-bezier(.2,.7,.3,1) both}
+.cards-3 > *:nth-child(2),.ab-col .block:nth-child(3),.ab-col:nth-child(2) .block{animation-delay:.08s}
+.cards-3 > *:nth-child(3){animation-delay:.16s}
+.page.result .reading{animation:riseIn .6s .14s cubic-bezier(.2,.7,.3,1) both}
+
+.slots .slot-col{animation:riseIn .5s cubic-bezier(.2,.7,.3,1) both}
+.slots .slot-col:nth-child(2){animation-delay:.06s}
+.slots .slot-col:nth-child(3){animation-delay:.12s}
+.slots .slot-col:nth-child(4){animation-delay:.18s}
+.slots .slot-col:nth-child(5){animation-delay:.24s}
+
+.mini-card:active{transform:scale(.92)}
+.mini-card.is-on{animation:popIn .2s ease}
+.spread-row.is-on .dot{animation:popIn .22s ease}
+.btn{transition:background .18s ease,color .18s ease,opacity .18s ease,transform .12s ease}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn-link{transition:color .18s ease}
+.spread-row .sr-diagram{transition:opacity .2s ease}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 </style>
@@ -669,9 +712,18 @@ function viewHome(){
       <div class="footline" style="border:0;padding-top:12px">
         <span class="hide-sm">78 张牌 · 22 张大阿尔卡纳 · 56 张小阿尔卡纳 · 五种牌阵</span>
         <span class="only-sm">78 张牌 · 五种牌阵</span>
-        <span class="v">v1.0</span>
+        <span class="v">v1.1</span>
       </div>
     </footer>
+  </div>`;
+}
+
+function shuffleHTML(){
+  return `<div class="shuffle" aria-hidden="true">
+    <i style="--r:-15deg;--i:0;--dx:-2.4px;--dy:2.4px"></i>
+    <i style="--r:-5deg;--i:1;--dx:-0.8px;--dy:0.8px"></i>
+    <i style="--r:5deg;--i:2;--dx:0.8px;--dy:-0.8px"></i>
+    <i style="--r:15deg;--i:3;--dx:2.4px;--dy:-2.4px"></i>
   </div>`;
 }
 
@@ -728,14 +780,14 @@ function viewDraw(){
             <button data-act="method" data-m="number" class="${isNum?"is-on":""}">按数字选择</button>
           </div>
           <p class="hint small">${isNum
-            ? "在洗好的牌堆里挑号码，每个号码只能选一次。"
-            : "由洗牌后的牌序决定，你不需要做任何选择。按下按钮前，再把问题默念一遍。"}</p>
+            ? "在牌堆里凭直觉选择即可。"
+            : "在牌堆里随机抽取。"}</p>
         </div>
       </div>
 
       <section class="stage-wrap ${isNum?"compact":""}">
-        ${slotsHTML()}
-        <p class="stage-note" data-note>${isNum ? numNote(sp) : "这叠牌已经洗过 · 在心中默念问题，然后抽牌"}</p>
+        ${S.shuffling ? shuffleHTML() : slotsHTML()}
+        <p class="stage-note" data-note>${S.shuffling ? "正在洗牌…" : (isNum ? numNote(sp) : (S.ready ? "洗好了" : "&nbsp;"))}</p>
         ${isNum ? `<div class="numgrid-wrap" data-scroll><div class="numgrid">${grid}</div></div>` : ""}
       </section>
 
@@ -743,7 +795,7 @@ function viewDraw(){
         ${isNum
           ? `<button class="btn block" data-act="confirm-num" ${ready?"":"disabled"}>确认并翻牌</button>
              <button class="btn-link" data-act="clear-num" style="align-self:center">重选号码</button>`
-          : `<button class="btn block" data-act="draw-random">随机抽取 ${sp.count} 张</button>
+          : `<button class="btn block" data-act="draw-random" ${S.shuffling?"disabled":""}>${S.shuffling?"洗牌中…":`随机抽取 ${sp.count} 张`}</button>
              <button class="btn-link" data-act="method-to-num" style="align-self:center">改为按数字选择</button>`}
       </div>
     </div>
@@ -965,6 +1017,9 @@ function sheetNotes(kind){
 }
 
 /* ---------- 6. 渲染 ---------- */
+const canVT = typeof document.startViewTransition === "function";
+const calm = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function render(){
   let html = "";
   if(S.view === "home") html = viewHome();
@@ -973,18 +1028,33 @@ function render(){
   else if(S.view === "history") html = viewHistory();
   if(S.notes) html += sheetNotes(S.notes);
   if(S.pending) html += sheetConfirm();
+
   const prev = document.querySelector("[data-scroll]");
   const keepTop = prev ? prev.scrollTop : 0;
   const changed = render.lastView !== S.view;
-  app.innerHTML = html;
   render.lastView = S.view;
-  if(keepTop){
-    const next = document.querySelector("[data-scroll]");
-    if(next) next.scrollTop = keepTop;
+
+  const swap = ()=>{
+    app.innerHTML = html;
+    if(keepTop){
+      const next = document.querySelector("[data-scroll]");
+      if(next) next.scrollTop = keepTop;
+    }
+    if(changed) window.scrollTo(0,0);
+    const ta = document.getElementById("q");
+    if(ta){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+    if(changed && !canVT){
+      const pg = app.querySelector(".page");
+      if(pg) pg.classList.add("page-in");
+    }
+  };
+
+  if(changed && canVT && !calm()){
+    try{ document.startViewTransition(swap); }
+    catch(e){ swap(); }
+  }else{
+    swap();
   }
-  if(changed) window.scrollTo(0,0);
-  const ta = document.getElementById("q");
-  if(ta){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
 }
 
 /* ---------- 7. 动作 ---------- */
@@ -993,8 +1063,22 @@ function startDraw(){
   S.drawn = [];
   S.picked = [];
   S.method = "random";
+  S.shuffling = true;
+  S.ready = false;
   S.view = "draw";
   render();
+  clearTimeout(startDraw.timer);
+  startDraw.timer = setTimeout(()=>{
+    if(!S.shuffling || S.view !== "draw" || S.method !== "random") return;
+    S.shuffling = false;
+    S.ready = true;
+    render();
+    clearTimeout(startDraw.fadeTimer);
+    startDraw.fadeTimer = setTimeout(()=>{
+      const n = document.querySelector("[data-note]");
+      if(n && S.ready && !S.shuffling) n.classList.add("faded");
+    }, 2600);
+  }, 1250);
 }
 function finish(cards){
   const at = Date.now();
@@ -1133,10 +1217,14 @@ app.addEventListener("click", async (e)=>{
     case "method":
       S.method = t.dataset.m;
       if(S.method === "random") S.picked = [];
+      S.shuffling = false; S.ready = false;
+      clearTimeout(startDraw.fadeTimer);
       S.drawn = [];
       render(); return;
     case "method-to-num":
-      S.method = "number"; S.drawn = []; S.picked = []; render(); return;
+      S.method = "number"; S.shuffling = false; S.ready = false;
+      clearTimeout(startDraw.fadeTimer);
+      S.drawn = []; S.picked = []; render(); return;
 
     case "pick-num": {
       const n = Number(t.dataset.n);
@@ -1162,6 +1250,7 @@ app.addEventListener("click", async (e)=>{
       return;
     }
     case "draw-random": {
+      if(S.shuffling) return;
       const sp = spreadById(S.spreadId);
       finish(S.deck.slice(0, sp.count));
       return;
@@ -1230,6 +1319,7 @@ document.addEventListener("keydown", (e)=>{
   if(e.key === "Escape" && S.notes){ S.notes = false; render(); }
   if(e.key === "Enter" && (e.metaKey || e.ctrlKey)){
     if(S.view === "draw"){
+      if(S.shuffling) return;
       const sp = spreadById(S.spreadId);
       if(S.method === "random") finish(S.deck.slice(0, sp.count));
       else if(S.picked.length === sp.count){
@@ -1250,6 +1340,7 @@ document.addEventListener("keydown", (e)=>{
   };
   if(d==="reset"){ writeHistory([]); S.view="home"; return; }
   if(d==="confirm"){ S.view="history"; S.pending="clear"; return; }
+  if(d==="shuffle"){ S.spreadId="timeline"; S.question=q; S.deck=buildDeck(); S.shuffling=true; S.view="draw"; return; }
   if(d==="abdraw"){ S.spreadId="ab"; S.question=q; S.deck=buildDeck(); S.view="draw"; return; }
   if(d==="abnum"){ S.spreadId="ab"; S.question=q; S.deck=buildDeck(); S.method="number"; S.picked=[7,42,63,5,19]; S.view="draw"; return; }
   if(d==="spread"){ S.view="home"; S.spreadId="timeline"; }

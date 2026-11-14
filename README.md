@@ -118,6 +118,7 @@ const SUITS = [
 - 无框架、无构建：`index.html` 里是一段不到 900 行的原生 JS，状态集中在一个 `S` 对象里，`render()` 按视图拼 HTML。
 - 抽牌：普通 `Math.random` 洗牌；「按数字选择」是在洗好的牌堆里取第 n 张。
 - 记录存在 `localStorage`（键名 `wuwang:history`，条数不限），导出为 JSON。
+- 页面切换用 View Transitions API 做真正的淡出淡入；不支持的浏览器降级为 CSS 淡入。牌面、解读、抽牌槽位都带轻微的错峰入场，均尊重系统的「减少动态效果」设置。
 - 字体走 Google Fonts（Noto Serif SC / Noto Sans SC / Inter），离线时回退到系统宋体/黑体，排版不会塌。
 - 预览用参数：`?demo=spread|draw|number|result|ab|expect|single|notes|history|confirm|reset`，正常使用用不到。
 
