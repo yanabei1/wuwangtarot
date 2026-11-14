@@ -56,7 +56,8 @@ img{display:block;max-width:100%}
 }
 
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}
-.tb-brand{display:flex;flex-direction:column;gap:4px}
+.tb-brand{display:flex;flex-direction:column;gap:4px;text-align:left;color:inherit;transition:opacity .2s}
+.tb-brand:hover{opacity:.6}
 .tb-brand b{font-family:var(--serif);font-size:clamp(18px,1.5vw,23px);font-weight:500;letter-spacing:.3em;line-height:1.2}
 .tb-brand span{font-family:var(--mono);font-size:7px;letter-spacing:.25em;color:var(--faint)}
 .tb-left{display:flex;align-items:center;gap:14px;min-width:0}
@@ -75,6 +76,17 @@ img{display:block;max-width:100%}
 }
 .footline .v{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em}
 .footbar{border-top:1px solid var(--line);padding-top:16px;margin-top:auto}
+.credit{justify-content:flex-end;border:0;padding-top:12px}
+.hl{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(138,51,36,.28);transition:border-color .2s}
+.hl:hover{border-bottom-color:var(--acc)}
+.v .hl{letter-spacing:0}
+.about-sec{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+.about-sec:last-child{border-bottom:0;padding-bottom:0}
+.about-label{font-size:9px;letter-spacing:.22em;color:var(--acc)}
+.about-body{font-size:11.5px;line-height:1.9;color:var(--soft)}
+.about-link{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(138,51,36,.28);word-break:break-all;transition:border-color .2s}
+.about-link:hover{border-bottom-color:var(--acc)}
+
 
 /* ---------- type ---------- */
 .display{font-family:var(--serif);font-weight:400;font-size:clamp(24px,3vw,42px);line-height:1.45;letter-spacing:.03em}
@@ -688,17 +700,18 @@ function viewHome(){
 
   return `<div class="page home">
     <header class="topbar">
-      <div class="tb-brand"><b>无妄塔罗</b><span>WU WANG TAROT</span></div>
+      <button class="tb-brand" data-act="about" title="关于无妄塔罗">
+        <b>无妄塔罗</b><span>WU WANG TAROT</span>
+      </button>
       <nav class="nav">
         <button data-act="notes">占卜须知</button>
         <button data-act="history">历史记录</button>
-        <span class="tb-step">01 / 02</span>
       </nav>
     </header>
 
     <main class="home-main">
       <div class="hero">
-        <div class="tag"><i></i><span>本地 · 静心 · 一次一问</span></div>
+        <div class="tag"><i></i><span>本地 · 极简 · 一次一问</span></div>
         <h1 class="display">不妄言，不妄断。<br>只把此刻看清。</h1>
       </div>
       <div class="spread-list">${rows}</div>
@@ -709,10 +722,8 @@ function viewHome(){
         <span class="sum">${cur?`已选 ${esc(cur.name)}　/　${cur.count} 张`:"先选一个牌阵"}</span>
         <button class="btn" data-act="to-draw" ${cur?"":"disabled"}>下一步 · 抽牌</button>
       </div>
-      <div class="footline" style="border:0;padding-top:12px">
-        <span class="hide-sm">78 张牌 · 22 张大阿尔卡纳 · 56 张小阿尔卡纳 · 五种牌阵</span>
-        <span class="only-sm">78 张牌 · 五种牌阵</span>
-        <span class="v">v1.1</span>
+      <div class="footline credit">
+        <span class="v">v1.2 · <a class="hl" href="https://github.com/yanabei1/wuwangtarot" target="_blank" rel="noopener">仓库</a></span>
       </div>
     </footer>
   </div>`;
@@ -763,7 +774,6 @@ function viewDraw(){
   return `<div class="page draw ${isNum?"is-num":""}">
     <header class="topbar">
       <div class="tb-left"><button class="back" data-act="home">←</button><span class="tb-title">${esc(sp.name)}</span></div>
-      <span class="tb-step">02 / 02</span>
     </header>
 
     <div class="draw-layout">
@@ -1004,6 +1014,38 @@ function sheetConfirm(){
   </div>`;
 }
 
+function sheetAbout(){
+  return `<div class="sheet" data-act="close-notes">
+    <div class="sheet-inner sheet-about" data-stop="1">
+      <div class="sheet-head">
+        <div>
+          <h3 class="h3">关于</h3>
+          <p class="mini" style="margin-top:6px">无妄塔罗 · WU WANG TAROT　v1.2</p>
+        </div>
+        <button class="sheet-close" data-act="close-notes">关闭 ✕</button>
+      </div>
+
+      <div class="about-sec">
+        <span class="about-label">代 码</span>
+        <p class="about-body">代码部分由 Deepseek 完成</p>
+        <p class="about-body">框架构想 <a class="hl" href="https://yanabei1.github.io/me/" target="_blank" rel="noopener">@yanabei1</a></p>
+        <p class="about-body">补充和测试意见 @Shan</p>
+      </div>
+
+      <div class="about-sec">
+        <span class="about-label">牌 面</span>
+        <p class="about-body">Rider–Waite–Smith 塔罗牌（1909），绘者 Pamela Colman Smith 于 1951 年去世，作品已进入公有领域。</p>
+        <p class="about-body"><a class="about-link" href="https://zh.wikipedia.org/wiki/%E9%9F%8B%E7%89%B9%E5%A1%94%E7%BE%85%E7%89%8C" target="_blank" rel="noopener">图片来源：维基百科「韋特塔羅牌」↗</a></p>
+      </div>
+
+      <div class="about-sec">
+        <span class="about-label">隐 私</span>
+        <p class="about-body">问题与记录只保存在你的浏览器本地，不会上传到任何服务器。</p>
+      </div>
+    </div>
+  </div>`;
+}
+
 function sheetNotes(kind){
   return `<div class="sheet" data-act="close-notes">
     <div class="sheet-inner" data-stop="1">
@@ -1026,7 +1068,8 @@ function render(){
   else if(S.view === "draw") html = viewDraw();
   else if(S.view === "result") html = viewResult();
   else if(S.view === "history") html = viewHistory();
-  if(S.notes) html += sheetNotes(S.notes);
+  if(S.notes === "about") html += sheetAbout();
+  else if(S.notes) html += sheetNotes(S.notes);
   if(S.pending) html += sheetConfirm();
 
   const prev = document.querySelector("[data-scroll]");
@@ -1203,6 +1246,7 @@ app.addEventListener("click", async (e)=>{
 
   switch(act){
     case "notes": S.notes = "notes"; render(); return;
+    case "about": S.notes = "about"; render(); return;
     case "close-notes": S.notes = false; render(); return;
 
     case "home": S.view = "home"; render(); return;
@@ -1340,6 +1384,7 @@ document.addEventListener("keydown", (e)=>{
   };
   if(d==="reset"){ writeHistory([]); S.view="home"; return; }
   if(d==="confirm"){ S.view="history"; S.pending="clear"; return; }
+  if(d==="about"){ S.notes="about"; return; }
   if(d==="shuffle"){ S.spreadId="timeline"; S.question=q; S.deck=buildDeck(); S.shuffling=true; S.view="draw"; return; }
   if(d==="abdraw"){ S.spreadId="ab"; S.question=q; S.deck=buildDeck(); S.view="draw"; return; }
   if(d==="abnum"){ S.spreadId="ab"; S.question=q; S.deck=buildDeck(); S.method="number"; S.picked=[7,42,63,5,19]; S.view="draw"; return; }

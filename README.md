@@ -128,6 +128,12 @@ const SUITS = [
 - 问题与结果只写入本机 `localStorage`
 - 「保存并复制」是把文本放进你系统的剪贴板，不会上传
 
+## 致谢
+
+- 代码实现：DeepSeek
+- 框架构想：[@yanabei1](https://yanabei1.github.io/me/)
+- 补充与测试意见：@Shan
+
 ## License
 
 代码以 [MIT](LICENSE) 发布。牌面为 Rider–Waite–Smith（1909），已进入公有领域，详见 [LICENSE](LICENSE) 末尾说明。
