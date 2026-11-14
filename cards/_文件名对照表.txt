@@ -1,0 +1,93 @@
+无妄塔罗 · 牌面文件名对照表
+把图片放进 cards 文件夹，按下面的文件名命名（建议 webp，1:1.66 竖图，600x996 或 1000x1660）。
+缺图不会报错，会自动显示为占位底色。
+
+── 大阿尔卡纳（22）──
+major-00.webp         愚者  THE FOOL
+major-01.webp         魔术师  THE MAGICIAN
+major-02.webp         女祭司  THE HIGH PRIESTESS
+major-03.webp         皇后  THE EMPRESS
+major-04.webp         皇帝  THE EMPEROR
+major-05.webp         教皇  THE HIEROPHANT
+major-06.webp         恋人  THE LOVERS
+major-07.webp         战车  THE CHARIOT
+major-08.webp         力量  STRENGTH
+major-09.webp         隐士  THE HERMIT
+major-10.webp         命运之轮  WHEEL OF FORTUNE
+major-11.webp         正义  JUSTICE
+major-12.webp         倒吊人  THE HANGED MAN
+major-13.webp         死神  DEATH
+major-14.webp         节制  TEMPERANCE
+major-15.webp         恶魔  THE DEVIL
+major-16.webp         塔  THE TOWER
+major-17.webp         星星  THE STAR
+major-18.webp         月亮  THE MOON
+major-19.webp         太阳  THE SUN
+major-20.webp         审判  JUDGEMENT
+major-21.webp         世界  THE WORLD
+
+── 小阿尔卡纳（56）──
+
+[权杖]
+wands-01.webp         权杖一  1 WANDS
+wands-02.webp         权杖二  2 WANDS
+wands-03.webp         权杖三  3 WANDS
+wands-04.webp         权杖四  4 WANDS
+wands-05.webp         权杖五  5 WANDS
+wands-06.webp         权杖六  6 WANDS
+wands-07.webp         权杖七  7 WANDS
+wands-08.webp         权杖八  8 WANDS
+wands-09.webp         权杖九  9 WANDS
+wands-10.webp         权杖十  10 WANDS
+wands-page.webp       权杖侍从  PAGE OF WANDS
+wands-knight.webp     权杖骑士  KNIGHT OF WANDS
+wands-queen.webp      权杖王后  QUEEN OF WANDS
+wands-king.webp       权杖国王  KING OF WANDS
+
+[圣杯]
+cups-01.webp          圣杯一  1 CUPS
+cups-02.webp          圣杯二  2 CUPS
+cups-03.webp          圣杯三  3 CUPS
+cups-04.webp          圣杯四  4 CUPS
+cups-05.webp          圣杯五  5 CUPS
+cups-06.webp          圣杯六  6 CUPS
+cups-07.webp          圣杯七  7 CUPS
+cups-08.webp          圣杯八  8 CUPS
+cups-09.webp          圣杯九  9 CUPS
+cups-10.webp          圣杯十  10 CUPS
+cups-page.webp        圣杯侍从  PAGE OF CUPS
+cups-knight.webp      圣杯骑士  KNIGHT OF CUPS
+cups-queen.webp       圣杯王后  QUEEN OF CUPS
+cups-king.webp        圣杯国王  KING OF CUPS
+
+[宝剑]
+swords-01.webp        宝剑一  1 SWORDS
+swords-02.webp        宝剑二  2 SWORDS
+swords-03.webp        宝剑三  3 SWORDS
+swords-04.webp        宝剑四  4 SWORDS
+swords-05.webp        宝剑五  5 SWORDS
+swords-06.webp        宝剑六  6 SWORDS
+swords-07.webp        宝剑七  7 SWORDS
+swords-08.webp        宝剑八  8 SWORDS
+swords-09.webp        宝剑九  9 SWORDS
+swords-10.webp        宝剑十  10 SWORDS
+swords-page.webp      宝剑侍从  PAGE OF SWORDS
+swords-knight.webp    宝剑骑士  KNIGHT OF SWORDS
+swords-queen.webp     宝剑王后  QUEEN OF SWORDS
+swords-king.webp      宝剑国王  KING OF SWORDS
+
+[星币]
+pentacles-01.webp     星币一  1 PENTACLES
+pentacles-02.webp     星币二  2 PENTACLES
+pentacles-03.webp     星币三  3 PENTACLES
+pentacles-04.webp     星币四  4 PENTACLES
+pentacles-05.webp     星币五  5 PENTACLES
+pentacles-06.webp     星币六  6 PENTACLES
+pentacles-07.webp     星币七  7 PENTACLES
+pentacles-08.webp     星币八  8 PENTACLES
+pentacles-09.webp     星币九  9 PENTACLES
+pentacles-10.webp     星币十  10 PENTACLES
+pentacles-page.webp   星币侍从  PAGE OF PENTACLES
+pentacles-knight.webp 星币骑士  KNIGHT OF PENTACLES
+pentacles-queen.webp  星币王后  QUEEN OF PENTACLES
+pentacles-king.webp   星币国王  KING OF PENTACLES

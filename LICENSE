@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 yanabi
+Copyright (c) 2026 无妄塔罗 (WU WANG TAROT)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+## 牌面图片
+
+`cards/` 中的牌面为 **Rider–Waite–Smith** 塔罗牌（1909 年初版），绘者
+Pamela Colman Smith（1878–1951）于 1951 年去世，作品在美国及其他
+「作者死后 70 年」的地区已进入公有领域（Public Domain）。
+
+如果你的图片来自某个机构的翻拍或二次修复版本，请自行确认该版本的
+使用条款；必要时替换为公有领域来源的扫描件即可。
+
+## 字体
+
+页面通过 Google Fonts 加载 Noto Serif SC / Noto Sans SC / Inter，
+均以 SIL Open Font License 发布。离线时会自动回退到系统字体。
