@@ -43,17 +43,13 @@ img{display:block;max-width:100%}
 
 /* ---------- shell ---------- */
 .page{
-  width:100%; max-width:1920px; margin:0 auto;
+  width:100%; max-width:480px; margin:0 auto;
   padding:var(--py) var(--px);
   display:flex; flex-direction:column; min-height:100dvh;
 }
-@media(min-width:900px){
-  .page{height:100dvh; overflow:hidden}
-  .page.result,.page.history{height:100dvh; overflow-y:auto; overflow-x:hidden}
-  .page.result::-webkit-scrollbar,.page.history::-webkit-scrollbar{width:10px}
-  .page.result::-webkit-scrollbar-thumb,.page.history::-webkit-scrollbar-thumb{background:var(--line2);border-radius:10px}
-  .page.result::-webkit-scrollbar-track,.page.history::-webkit-scrollbar-track{background:transparent}
-}
+.page.has-bar{padding-bottom:0}
+.page.draw.is-num{height:100dvh;overflow:hidden}
+
 
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}
 .tb-brand{display:flex;flex-direction:column;gap:4px;text-align:left;color:inherit;transition:opacity .2s}
@@ -89,7 +85,7 @@ img{display:block;max-width:100%}
 
 
 /* ---------- type ---------- */
-.display{font-family:var(--serif);font-weight:400;font-size:clamp(24px,3vw,42px);line-height:1.45;letter-spacing:.03em}
+.display{font-family:var(--serif);font-weight:400;font-size:clamp(19px,5vw,22px);line-height:1.55;letter-spacing:.06em}
 .h2{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.2vw,34px);letter-spacing:.1em;line-height:1.35}
 .h3{font-family:var(--serif);font-weight:400;font-size:16px;letter-spacing:.12em}
 .lead{font-size:clamp(12.5px,1vw,15px);line-height:1.95;color:var(--soft);max-width:54ch}
@@ -121,12 +117,25 @@ img{display:block;max-width:100%}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px clamp(16px,2vw,30px)}
 
 /* ---------- home ---------- */
-.home-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(16px,2.6vh,32px);padding:clamp(14px,3vh,36px) 0}
-.hero{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,18px)}
-@media(min-width:900px){
-  .home-main{justify-content:center;gap:clamp(22px,3.2vh,38px);padding:0}
-  .home-main .display{font-size:clamp(26px,3.2vw,46px);line-height:1.45}
+.home-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(16px,2.6vh,26px);padding:clamp(12px,2.4vh,22px) 0 0}
+.home-top{display:flex;flex-direction:column;gap:clamp(12px,1.8vh,16px)}
+.q-input.home-q{font-size:clamp(18px,4.8vw,21px);border-bottom:1px solid var(--line);padding-bottom:10px;transition:border-color .2s}
+.q-input.home-q:focus{border-bottom-color:var(--ink)}
+.home-claim{margin-top:auto;padding:clamp(14px,2.6vh,26px) 0 clamp(6px,1.4vh,12px)}
+.home-claim .display{color:var(--ink)}
+
+/* 底部固定操作栏 */
+.bar{
+  position:sticky;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;align-items:stretch;
+  padding:10px 0 calc(10px + env(safe-area-inset-bottom));
+  margin-top:auto;background:var(--paper);border-top:1px solid var(--line);
 }
+.bar-actions{display:flex;gap:10px}
+.bar-actions .btn{flex:1}
+.bar .bar-link{align-self:flex-start;white-space:nowrap;padding:2px 0}
+.bar .btn.plain,.bar .btn.ghost{flex:1}
+.hero{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,18px)}
+
 .home-main .spread-list{flex:none}
 
 /* ---------- card back / face ---------- */
@@ -151,15 +160,13 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 
 /* ---------- spread list ---------- */
 .head{display:flex;flex-direction:column;gap:8px;padding:clamp(20px,4vh,40px) 0 clamp(16px,2.6vh,30px)}
-@media(min-width:900px){
-  .head{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:24px}
-}
+
 .spread-body{display:flex;flex-direction:column}
-@media(min-width:900px){.spread-body{flex:1;min-height:0;justify-content:center;padding-bottom:clamp(10px,2vh,24px)}}
+
 .spread-list{display:flex;flex-direction:column}
 .spread-row{
   display:flex;gap:12px;text-align:left;width:100%;
-  padding:clamp(15px,2vh,22px) 0;border-bottom:1px solid var(--line);
+  padding:clamp(13px,1.8vh,20px) 0;border-bottom:1px solid var(--line);
   transition:background .18s ease,border-color .18s ease;
 }
 .spread-row .sr-top{display:flex;align-items:center;gap:6px;padding-top:4px;flex:none}
@@ -173,30 +180,10 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 .spread-row.is-on{background:var(--raise)}
 .spread-row.is-on .dot{opacity:1}
 .spread-row.is-on .sr-num{color:var(--acc)}
-@media(min-width:900px){
-  .spread-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.3vw,20px)}
-  .spread-row{flex-direction:column;height:clamp(150px,21vh,200px);padding:clamp(18px,2.2vh,26px) clamp(15px,1.6vw,24px);border:1px solid var(--line);border-radius:2px;gap:0}
-  .spread-row .sr-top{justify-content:space-between;padding:0}
-  .spread-row .sr-body{flex:1;justify-content:space-between;gap:14px;margin-top:clamp(14px,2vh,22px)}
-  .spread-row .sr-line{align-items:flex-start;flex-direction:column;gap:6px}
-  .spread-row .sr-count{font-size:10.5px}
-  .spread-row .sr-name{font-size:clamp(15px,1.42vw,21px);letter-spacing:.06em}
-  .spread-row .sr-desc{font-size:clamp(11.5px,1vw,13px);line-height:1.8}
-  .spread-row.is-on{border-color:var(--ink);background:var(--back)}
-  .spread-row:hover{border-color:var(--line2)}
-  .spread-row.is-on:hover{border-color:var(--ink)}
-}
 
-.spread-foot{display:flex;flex-direction:column;align-items:stretch;gap:12px}
-.spread-foot .btn{width:100%;padding:14px 20px;letter-spacing:.16em}
-.spread-foot .sum{font-size:10.5px;letter-spacing:.08em;color:var(--faint)}
-@media(min-width:900px){
-  .spread-foot{flex-direction:row;align-items:center;justify-content:space-between}
-  .spread-foot .btn{width:auto}
-}
-.only-sm{display:inline}
-.hide-sm{display:none}
-@media(min-width:900px){.only-sm{display:none}.hide-sm{display:inline}}
+
+
+
 
 /* ---------- inline question on draw ---------- */
 .q-input{
@@ -212,11 +199,7 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 
 /* ---------- draw ---------- */
 .page.draw.is-num{height:100dvh;overflow:hidden}
-.draw-layout{flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(14px,2vh,24px);padding-top:clamp(20px,5vh,44px)}
-.rail{display:flex;flex-direction:column;gap:clamp(16px,2.4vh,30px);min-height:0;flex:none}
-.q-block .lab{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.rule{height:1px;background:var(--line)}
-.method-box{display:flex;flex-direction:column;gap:10px}
+.draw-layout{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(10px,2vh,18px) 0}
 .seg{display:flex;background:#EAE4D8;border-radius:2px;padding:3px}
 .seg button{
   flex:1;padding:clamp(8px,1.2vh,11px) 6px;font-size:clamp(10.5px,.9vw,12px);letter-spacing:.16em;color:var(--soft);
@@ -252,6 +235,15 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
   background:var(--slot);border:1px solid #C0B5A3;border-radius:2px;flex:none;
 }
 .slot i{display:block;width:14px;height:14px;border-radius:50%;border:1.5px solid #C6BAA7}
+.slot.is-back{background:var(--back);border-color:var(--backLine)}
+.slot.is-back::before{content:"";position:absolute;inset:7%;border:1px solid var(--backLine);border-radius:2px}
+.slot.is-back::after{content:"";position:absolute;left:50%;top:50%;width:12%;aspect-ratio:1;margin:-6% 0 0 -6%;border-radius:50%;border:1.5px solid var(--acc)}
+button.slot-col{cursor:pointer}
+button.slot-col .slot{transition:transform .22s ease,border-color .22s ease}
+button.slot-col:hover .slot{transform:translateY(-3px)}
+button.slot-col:active .slot{transform:translateY(-1px) scale(.995)}
+button.slot-col:disabled{cursor:default}
+button.slot-col:disabled:hover .slot{transform:none}
 .slot-label{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.18em;color:var(--faint);white-space:nowrap}
 .slot-label b{font-family:var(--mono);font-weight:400;font-size:8.5px;color:#B0A695}
 .shuffle{position:relative;width:clamp(92px,9vw,140px);aspect-ratio:1/1.72;margin:clamp(10px,3.5vh,44px) 0}
@@ -267,8 +259,7 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
   0%,100%{transform:translate(var(--dx,0),var(--dy,0)) rotate(0deg)}
   42%,58%{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r))}
 }
-.stage-note{font-size:11px;line-height:1.8;color:var(--soft);text-align:center;max-width:100%;flex:none;transition:opacity .9s ease}
-.stage-note.faded{opacity:0}
+.stage-note{font-size:11px;line-height:1.8;color:var(--soft);text-align:center;max-width:100%;flex:none}
 
 .numgrid-wrap{
   width:100%;display:flex;justify-content:center;align-items:flex-start;padding:2px 2px 6px;
@@ -291,35 +282,19 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 .rail-actions{display:flex;flex-direction:column;gap:10px;margin-top:auto}
 .rail-actions .note{font-size:9.5px;color:var(--faint);text-align:center;line-height:1.7}
 
-@media(min-width:900px){
-  .draw-layout{
-    display:grid;
-    grid-template-columns:minmax(260px,24vw) minmax(0,1fr);
-    grid-template-rows:minmax(0,1fr) auto;
-    grid-template-areas:"rail stage" "actions stage";
-    gap:0 clamp(24px,3vw,56px);
-    padding-top:clamp(14px,2vh,26px);
-  }
-  .rail{grid-area:rail}
-  .rail-actions{grid-area:actions;align-self:end;padding-top:clamp(20px,3vh,44px)}
-  .stage-wrap{grid-area:stage;height:auto;max-height:100%;align-self:center;width:100%;max-width:780px;justify-self:center;
-    justify-content:center;padding:clamp(16px,2.6vh,34px) clamp(16px,2vw,38px)}
-  .stage-wrap.compact{height:100%;flex:1 1 auto}
-  .slots{flex:0 1 auto;min-height:0;max-width:none;align-content:center;align-items:center;
-    gap:clamp(16px,2.4vw,44px)}
-  .slot-col{max-width:min(clamp(130px,17vw,230px),32vh);height:auto;min-height:0}
-  .ab-layout .slot-col{max-width:min(110px,13vh)}
-  .slot{width:100%;height:auto;flex:none}
-  .slot i{width:clamp(14px,1.5vw,20px);height:clamp(14px,1.5vw,20px)}
-  .stage-wrap.compact .slots{flex:0 0 auto;align-content:center}
-  .stage-wrap.compact .slot-col{max-width:min(clamp(64px,7vw,104px),15vh)}
-  .numgrid{max-width:min(100%,560px)}
-}
+
 
 /* ---------- result ---------- */
 .result-layout{flex:1;display:flex;flex-direction:column;gap:clamp(26px,4vh,40px);padding-top:clamp(12px,2vh,26px)}
 .cards-area{display:flex;flex-direction:column;gap:clamp(20px,3vh,32px);min-width:0;--ab-gap:clamp(16px,2vw,28px)}
-.r-head{display:flex;flex-direction:column;gap:10px}
+
+.result-top{position:sticky;top:0;z-index:6;background:var(--paper);padding-bottom:clamp(8px,1.4vh,12px);border-bottom:1px solid var(--line)}
+.r-head{display:flex;flex-direction:column;gap:8px;padding-top:clamp(12px,2vh,18px)}
+.r-meta-right{display:flex;align-items:center;gap:12px}
+.r-meta button{font-size:9.5px;letter-spacing:.1em;color:var(--faint);border-bottom:1px solid var(--line);padding:1px 0}
+.r-meta button:hover{color:var(--ink);border-color:var(--line2)}
+.q-input.r-q-input{font-size:clamp(15px,4vw,18px);background:var(--raise);border:1px solid var(--line2);border-radius:2px;padding:8px 10px}
+.q-input.r-q-input:focus{border-color:var(--ink)}
 .r-head .q{font-family:var(--serif);font-size:clamp(17px,1.7vw,28px);line-height:1.55;letter-spacing:.05em}
 .r-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:9.5px;letter-spacing:.08em;color:var(--faint)}
 .r-meta .t{font-family:var(--mono);font-size:9px}
@@ -332,7 +307,7 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 .cards-ab figure.card,.cur-wrap figure.card{max-width:min(100%,31vh)}
 .cards-1{display:flex;justify-content:center}
 .cards-1 figure.card{width:min(260px,62%);max-width:31vh}
-.col{min-width:0;display:flex;flex-direction:column}
+.col{min-width:0;width:100%;display:flex;flex-direction:column}
 .cards-ab{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ab-gap);max-width:min(100%,820px)}
 .ab-col{display:flex;flex-direction:column;gap:0;min-width:0}
 .ab-head{display:flex;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:16px}
@@ -363,22 +338,15 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 .r-actions{display:flex;gap:10px;flex-wrap:wrap}
 .r-actions .btn{flex:1;min-width:120px}
 
-@media(min-width:900px){
-  .result-layout{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) clamp(320px,27vw,420px);
-    gap:clamp(28px,3.4vw,56px);align-items:start;
-  }
-  .reading{border-left:1px solid var(--line);padding-left:clamp(24px,2.6vw,44px);align-self:stretch}
-  .r-actions .btn{flex:0 1 auto}
-  .cards-1 figure.card{width:min(280px,52%)}
-}
+
 
 /* ---------- ai hint ---------- */
 .ai-block{display:flex;flex-direction:column;gap:8px}
 .ai-block .btn-link{align-self:flex-start;text-align:left;padding:2px 0}
 .ai-hint{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--raise);border:1px solid var(--line);border-radius:2px}
-.ai-hint .t{font-family:var(--serif);font-size:12.5px;letter-spacing:.08em}
+.ai-hint .t{font-family:var(--serif);font-size:12.5px;letter-spacing:.08em;color:var(--ink)}
+.ai-hint .ai-link{align-self:flex-start;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:rgba(25,23,21,.38);transition:color .2s,text-decoration-color .2s}
+.ai-hint .ai-link:hover{color:var(--acc);text-decoration-color:var(--acc)}
 .ai-hint .d{font-size:11px;line-height:1.85;color:var(--soft)}
 
 /* ---------- history ---------- */
@@ -400,6 +368,13 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 .h-acts button{font-size:10px;letter-spacing:.12em;color:var(--faint);padding:2px 0}
 .h-acts button:hover{color:var(--ink)}
 .h-acts button.del:hover{color:var(--acc)}
+.h-edit{display:flex;flex-direction:column;gap:8px}
+.h-input{width:100%;font-family:var(--serif);font-size:clamp(14px,1.3vw,17px);line-height:1.5;letter-spacing:.05em;color:var(--ink);background:var(--raise);border:1px solid var(--line2);border-radius:2px;padding:8px 10px;resize:none}
+.h-input:focus{outline:0;border-color:var(--ink)}
+.h-edit-actions{display:flex;gap:14px}
+.h-edit-actions button{font-size:10px;letter-spacing:.12em;color:var(--faint)}
+.h-edit-actions button.pri{color:var(--ink)}
+.h-edit-actions button:hover{color:var(--acc)}
 .h-empty{display:flex;flex-direction:column;align-items:center;gap:18px;padding:clamp(40px,10vh,90px) 0;text-align:center}
 .h-tools{display:flex;align-items:center;gap:clamp(12px,1.6vw,22px);flex-wrap:wrap}
 .h-tools button{font-size:10.5px;letter-spacing:.1em;color:var(--faint);padding:4px 0}
@@ -412,14 +387,15 @@ figure.card.left .cap{align-items:flex-start;text-align:left}
 
 /* ---------- notes sheet ---------- */
 .sheet{position:fixed;inset:0;z-index:40;display:flex;align-items:flex-end;justify-content:center;background:rgba(25,23,21,.32)}
+@media(min-width:640px){
+  .sheet{align-items:center}
+  .sheet-inner{max-width:480px;border-radius:3px;max-height:84dvh}
+}
 .sheet-inner{
   background:var(--paper);width:100%;max-width:430px;max-height:88dvh;overflow:auto;
   padding:28px 26px 26px;border-radius:4px 4px 0 0;animation:up .24s ease;
 }
-@media(min-width:900px){
-  .sheet{align-items:center}
-  .sheet-inner{max-width:660px;border-radius:3px;padding:clamp(28px,3vw,44px);max-height:84dvh}
-}
+
 @keyframes up{from{transform:translateY(18px);opacity:.4}to{transform:none;opacity:1}}
 .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:18px}
 .sheet-close{font-size:13px;color:var(--faint);padding:4px 0 4px 8px}
@@ -619,8 +595,11 @@ const SPREADS = [
 const spreadById = id => SPREADS.find(s=>s.id===id);
 
 /* ---------- 3. 状态 ---------- */
+const METHOD_KEY = "wuwang:method";
+const readMethod = ()=>{ try{ return localStorage.getItem(METHOD_KEY) || "random"; }catch(e){ return "random"; } };
+
 const S = {
-  view:"home", spreadId:null, question:"", method:"random",
+  view:"home", spreadId:null, question:"", method:readMethod(),
   deck:[], drawn:[], picked:[], result:null, notes:false
 };
 const app = document.getElementById("app");
@@ -679,14 +658,14 @@ const slotName = (sp,i)=> sp.slots[i].g && sp.id!=="expect"
 
 const numNote = sp => {
   const p = S.picked.length;
-  return p === sp.count
-    ? `已选 ${p} / ${sp.count} · 确认后翻牌`
-    : `已选 ${p} / ${sp.count} · 还需要再选 ${sp.count-p} 张`;
+  if(p === 0) return "在牌堆里凭直觉选择";
+  if(p < sp.count) return `已选 ${p} / ${sp.count} · 点已选的牌可以取消`;
+  return `已选 ${p} / ${sp.count} · 确认后翻牌`;
 };
 
 /* ---------- 5. 视图 ---------- */
 function viewHome(){
-  const cur = S.spreadId ? spreadById(S.spreadId) : null;
+  const isNum = S.method === "number";
   const rows = SPREADS.map((s,i)=>{
     const on = S.spreadId === s.id;
     return `<button class="spread-row ${on?"is-on":""}" data-act="pick-spread" data-id="${s.id}">
@@ -710,21 +689,24 @@ function viewHome(){
     </header>
 
     <main class="home-main">
-      <div class="hero">
+      <div class="home-top">
         <div class="tag"><i></i><span>本地 · 极简 · 一次一问</span></div>
+        <textarea class="q-input home-q" id="q" maxlength="60" rows="1" placeholder="在心中默念，或写在这里">${esc(S.question)}</textarea>
+        <div class="seg" role="tablist">
+          <button data-act="method" data-m="random" class="${isNum?"":"is-on"}">随机抽取</button>
+          <button data-act="method" data-m="number" class="${isNum?"is-on":""}">按数字选择</button>
+        </div>
+      </div>
+
+      <div class="spread-list">${rows}</div>
+
+      <div class="home-claim">
         <h1 class="display">不妄言，不妄断。<br>只把此刻看清。</h1>
       </div>
-      <div class="spread-list">${rows}</div>
     </main>
 
-    <footer class="foot">
-      <div class="footline footbar spread-foot" style="border-left:0;border-right:0;border-bottom:0">
-        <span class="sum">${cur?`已选 ${esc(cur.name)}　/　${cur.count} 张`:"先选一个牌阵"}</span>
-        <button class="btn" data-act="to-draw" ${cur?"":"disabled"}>下一步 · 抽牌</button>
-      </div>
-      <div class="footline credit">
-        <span class="v">v1.2 · <a class="hl" href="https://github.com/yanabei1/wuwangtarot" target="_blank" rel="noopener">仓库</a></span>
-      </div>
+    <footer class="footline credit">
+      <span class="v">v1.3 · <a class="hl" href="https://github.com/yanabei1/wuwangtarot" target="_blank" rel="noopener">仓库</a></span>
     </footer>
   </div>`;
 }
@@ -738,16 +720,19 @@ function shuffleHTML(){
   </div>`;
 }
 
-function slotsHTML(){
+function slotsHTML(clickable){
   const sp = spreadById(S.spreadId);
   const cols = sp.count === 6 ? 3 : sp.count;
   const one = (i)=>{
     const sl = sp.slots[i];
     const filled = S.drawn[i] ? cardHTML(S.drawn[i]) : "";
-    return `<div class="slot-col">
-      ${S.drawn[i] ? filled : `<div class="slot"><i></i></div>`}
-      ${sl.label?`<span class="slot-label">${sl.g && sp.id!=="expect"?`<b>${sl.g}</b>`:""}${esc(sl.label)}</span>`:""}
-    </div>`;
+    const face = S.drawn[i] ? filled : (clickable
+      ? `<div class="slot is-back"></div>`
+      : `<div class="slot"><i></i></div>`);
+    const inner = `${face}${sl.label?`<span class="slot-label">${sl.g && sp.id!=="expect"?`<b>${sl.g}</b>`:""}${esc(sl.label)}</span>`:""}`;
+    return clickable
+      ? `<button class="slot-col" data-act="draw-random" ${S.shuffling?"disabled":""}>${inner}</button>`
+      : `<div class="slot-col">${inner}</div>`;
   };
   if(sp.id === "ab"){
     return `<div class="slots ab-layout">
@@ -763,52 +748,29 @@ function slotsHTML(){
 
 function viewDraw(){
   const sp = spreadById(S.spreadId);
+  const isNum = S.method === "number";
   const picked = S.picked.length;
   const ready = picked === sp.count;
-  const isNum = S.method === "number";
   const grid = Array.from({length:78},(_,i)=>{
     const n = i+1, on = S.picked.includes(n);
     return `<button class="mini-card ${on?"is-on":""}" data-act="pick-num" data-n="${n}" aria-pressed="${on}">${pad(n)}</button>`;
   }).join("");
 
-  return `<div class="page draw ${isNum?"is-num":""}">
+  return `<div class="page draw ${isNum?"is-num has-bar":""}">
     <header class="topbar">
       <div class="tb-left"><button class="back" data-act="home">←</button><span class="tb-title">${esc(sp.name)}</span></div>
+      <span class="tb-step">${sp.count} 张</span>
     </header>
 
     <div class="draw-layout">
-      <div class="rail">
-        <div class="q-block">
-          <div class="lab"><span class="eyebrow">问 题</span><i class="rule" style="width:16px;flex:none"></i><span class="mini">${esc(sp.name)} · ${sp.count} 张</span></div>
-          <textarea class="q-input" id="q" maxlength="60" rows="1" placeholder="请在心中默念你的问题或在此写下">${esc(S.question)}</textarea>
-        </div>
-
-        <div class="method-box">
-          <span class="mini">抽牌方式</span>
-          <div class="seg" role="tablist">
-            <button data-act="method" data-m="random" class="${isNum?"":"is-on"}">随机抽取</button>
-            <button data-act="method" data-m="number" class="${isNum?"is-on":""}">按数字选择</button>
-          </div>
-          <p class="hint small">${isNum
-            ? "在牌堆里凭直觉选择即可。"
-            : "在牌堆里随机抽取。"}</p>
-        </div>
-      </div>
-
       <section class="stage-wrap ${isNum?"compact":""}">
-        ${S.shuffling ? shuffleHTML() : slotsHTML()}
-        <p class="stage-note" data-note>${S.shuffling ? "正在洗牌…" : (isNum ? numNote(sp) : (S.ready ? "洗好了" : "&nbsp;"))}</p>
+        ${S.shuffling ? shuffleHTML() : slotsHTML(!isNum)}
+        <p class="stage-note" data-note>${S.shuffling ? "正在洗牌…" : (isNum ? numNote(sp) : (S.ready ? "点击揭示卡牌" : "&nbsp;"))}</p>
         ${isNum ? `<div class="numgrid-wrap" data-scroll><div class="numgrid">${grid}</div></div>` : ""}
       </section>
-
-      <div class="rail-actions">
-        ${isNum
-          ? `<button class="btn block" data-act="confirm-num" ${ready?"":"disabled"}>确认并翻牌</button>
-             <button class="btn-link" data-act="clear-num" style="align-self:center">重选号码</button>`
-          : `<button class="btn block" data-act="draw-random" ${S.shuffling?"disabled":""}>${S.shuffling?"洗牌中…":`随机抽取 ${sp.count} 张`}</button>
-             <button class="btn-link" data-act="method-to-num" style="align-self:center">改为按数字选择</button>`}
-      </div>
     </div>
+
+    ${isNum ? `<div class="bar"><div class="bar-actions"><button class="btn block" data-act="confirm-num" ${ready?"":"disabled"}>确认并翻牌</button></div></div>` : ""}
   </div>`;
 }
 
@@ -902,18 +864,34 @@ function viewResult(){
   const res = S.result;
   const sp = spreadById(res.spreadId);
   const {overall,items} = buildReading(res);
-  return `<div class="page result">
-    <header class="topbar">
-      <div class="tb-left"><button class="back" data-act="ask-other" title="保存并回到首页">←</button><span class="tb-title">占卜结果</span></div>
-    </header>
+  const editing = !!S.editingQ;
+  return `<div class="page result has-bar">
+    <div class="result-top">
+      <header class="topbar">
+        <div class="tb-left"><button class="back" data-act="ask-other" title="保存并回到首页">←</button><span class="tb-title">占卜结果</span></div>
+      </header>
+
+      <div class="r-head">
+        <span class="eyebrow">问 题</span>
+        ${editing
+          ? `<textarea class="q-input r-q-input" id="q-result" maxlength="60" rows="2" placeholder="为这次占卜补一句备注">${esc(res.question||"")}</textarea>
+             <div class="h-edit-actions">
+               <button class="pri" data-act="save-result-q">保存</button>
+               <button data-act="cancel-result-q">取消</button>
+             </div>`
+          : `<p class="q" style="${res.question?"":"color:var(--faint)"}">${res.question?esc(res.question):"（未写下问题）"}</p>`}
+        <div class="r-meta">
+          <span>${esc(sp.name)} · ${sp.count} 张</span>
+          <span class="r-meta-right">
+            ${editing?"":`<button data-act="edit-result-q">改问题</button>`}
+            <span class="t">${fmtDate(res.at)}</span>
+          </span>
+        </div>
+      </div>
+    </div>
 
     <div class="result-layout">
       <section class="cards-area">
-        <div class="r-head">
-          <span class="eyebrow">问 题</span>
-          <p class="q" style="${res.question?"":"color:var(--faint)"}">${res.question?esc(res.question):"（未写下问题）"}</p>
-          <div class="r-meta"><span>${esc(sp.name)} · ${sp.count} 张</span><span class="t">${fmtDate(res.at)}</span></div>
-        </div>
         ${cardsArea(res)}
       </section>
 
@@ -931,16 +909,19 @@ function viewResult(){
         </div>
         <div class="ai-block">
           <div class="ai-hint">
-            <p class="t">想听另一种说法？</p>
+            <a class="t ai-link" href="https://chat.deepseek.com/" target="_blank" rel="noopener">想听另一种说法？</a>
             <p class="d">点「保存并复制」，把问题与牌面一起交给别的 AI 或懂牌的朋友 —— 换个角度，常能看到自己忽略的部分。</p>
           </div>
-          <button class="btn-link" data-act="notes">占卜须知 →</button>
-        </div>
-        <div class="r-actions">
-          <button class="btn" data-act="save">保存并复制</button>
-          <button class="btn ghost" data-act="ask-other">问问别的</button>
         </div>
       </aside>
+    </div>
+
+    <div class="bar">
+      <button class="btn-link bar-link" data-act="notes">占卜须知 →</button>
+      <div class="bar-actions">
+        <button class="btn" data-act="save">保存并复制</button>
+        <button class="btn ghost" data-act="ask-other">问问别的</button>
+      </div>
     </div>
   </div>`;
 }
@@ -959,11 +940,20 @@ function viewHistory(){
     const id = rec.id || rec.at;
     return `<article class="h-row">
       <div class="h-top"><span class="d">${fmtFull(rec.at)}</span><span>${esc(sp.name)} · ${rec.cards.length} 张</span></div>
-      <p class="h-q">${rec.question?esc(rec.question):"（未写下问题）"}</p>
+      ${String(S.editingId) === String(id)
+        ? `<div class="h-edit">
+            <textarea class="h-input" id="h-edit-input" maxlength="60" rows="2" placeholder="为这次占卜写一个问题">${esc(rec.question||"")}</textarea>
+            <div class="h-edit-actions">
+              <button class="pri" data-act="save-q" data-id="${id}">保存</button>
+              <button data-act="cancel-q">取消</button>
+            </div>
+          </div>`
+        : `<p class="h-q">${rec.question?esc(rec.question):"（未写下问题）"}</p>`}
       <ul class="h-cards">${cards}</ul>
       <div class="h-acts">
         <button data-act="open-hist" data-id="${id}">查看</button>
         <button data-act="copy-hist" data-id="${id}">复制</button>
+        <button data-act="edit-q" data-id="${id}">改问题</button>
         <button class="del" data-act="del-hist" data-id="${id}">删除</button>
       </div>
     </article>`;
@@ -1020,7 +1010,7 @@ function sheetAbout(){
       <div class="sheet-head">
         <div>
           <h3 class="h3">关于</h3>
-          <p class="mini" style="margin-top:6px">无妄塔罗 · WU WANG TAROT　v1.2</p>
+          <p class="mini" style="margin-top:6px">无妄塔罗 · WU WANG TAROT　v1.3</p>
         </div>
         <button class="sheet-close" data-act="close-notes">关闭 ✕</button>
       </div>
@@ -1050,7 +1040,7 @@ function sheetNotes(kind){
   return `<div class="sheet" data-act="close-notes">
     <div class="sheet-inner" data-stop="1">
       <div class="sheet-head">
-        <div><h3 class="h3">看牌之前</h3><p class="mini" style="margin-top:6px">这三条不是为了免责，而是为了让一次占卜真的对你有用。</p></div>
+        <div><h3 class="h3">看牌之前</h3></div>
         <button class="sheet-close" data-act="close-notes">关闭 ✕</button>
       </div>
       ${NOTES.map(([n,t,p])=>`<div class="notes-item"><span class="n">${n}</span><div><h4>${t}</h4><p>${p}</p></div></div>`).join("")}
@@ -1086,6 +1076,10 @@ function render(){
     if(changed) window.scrollTo(0,0);
     const ta = document.getElementById("q");
     if(ta){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+    const hq = document.getElementById("h-edit-input");
+    if(hq){ hq.focus(); hq.setSelectionRange(hq.value.length, hq.value.length); }
+    const rq = document.getElementById("q-result");
+    if(rq){ rq.style.height = "auto"; rq.style.height = rq.scrollHeight + "px"; rq.focus(); rq.setSelectionRange(rq.value.length, rq.value.length); }
     if(changed && !canVT){
       const pg = app.querySelector(".page");
       if(pg) pg.classList.add("page-in");
@@ -1105,22 +1099,18 @@ function startDraw(){
   S.deck = buildDeck();
   S.drawn = [];
   S.picked = [];
-  S.method = "random";
-  S.shuffling = true;
+  const shuffle = S.method === "random";
+  S.shuffling = shuffle;
   S.ready = false;
   S.view = "draw";
   render();
   clearTimeout(startDraw.timer);
+  if(!shuffle) return;
   startDraw.timer = setTimeout(()=>{
     if(!S.shuffling || S.view !== "draw" || S.method !== "random") return;
     S.shuffling = false;
     S.ready = true;
     render();
-    clearTimeout(startDraw.fadeTimer);
-    startDraw.fadeTimer = setTimeout(()=>{
-      const n = document.querySelector("[data-note]");
-      if(n && S.ready && !S.shuffling) n.classList.add("faded");
-    }, 2600);
   }, 1250);
 }
 function finish(cards){
@@ -1131,6 +1121,7 @@ function finish(cards){
     cards
   };
   S.result = res;
+  S.editingQ = false;
   S.view = "result";
   render();
 }
@@ -1188,6 +1179,7 @@ function openHist(id){
   S.spreadId = rec.spreadId;
   S.question = rec.question || "";
   S.result = recordToResult(rec);
+  S.editingQ = false;
   S.view = "result";
   render();
 }
@@ -1253,22 +1245,19 @@ app.addEventListener("click", async (e)=>{
     case "to-spread": S.view = "home"; render(); return;
     case "start": S.view = "home"; render(); return;
     case "pick-spread":
-      S.spreadId = t.dataset.id; render(); return;
+      S.spreadId = t.dataset.id;
+      startDraw(); return;
     case "to-draw":
       if(!S.spreadId) return;
       startDraw(); return;
 
     case "method":
       S.method = t.dataset.m;
+      try{ localStorage.setItem(METHOD_KEY, S.method); }catch(e){}
       if(S.method === "random") S.picked = [];
       S.shuffling = false; S.ready = false;
-      clearTimeout(startDraw.fadeTimer);
       S.drawn = [];
       render(); return;
-    case "method-to-num":
-      S.method = "number"; S.shuffling = false; S.ready = false;
-      clearTimeout(startDraw.fadeTimer);
-      S.drawn = []; S.picked = []; render(); return;
 
     case "pick-num": {
       const n = Number(t.dataset.n);
@@ -1285,7 +1274,6 @@ app.addEventListener("click", async (e)=>{
       if(cta) cta.disabled = S.picked.length !== sp.count;
       return;
     }
-    case "clear-num": S.picked = []; render(); return;
     case "confirm-num": {
       const sp = spreadById(S.spreadId);
       if(S.picked.length !== sp.count) return;
@@ -1302,12 +1290,42 @@ app.addEventListener("click", async (e)=>{
     case "again":
       startDraw(); return;
     case "history": S.view = "history"; render(); return;
-    case "open-hist": openHist(t.dataset.id); return;
+    case "open-hist": S.editingId = null; openHist(t.dataset.id); return;
     case "copy-hist": {
       const rec = readHistory().find(x=>String(x.id||x.at)===t.dataset.id);
       if(!rec) return;
       const ok = await copyText(summaryText(recordToResult(rec)));
       toast(ok ? "已复制到剪贴板" : "复制失败，请手动选择文本");
+      return;
+    }
+    case "edit-result-q":
+      S.editingQ = true; render(); return;
+    case "cancel-result-q":
+      S.editingQ = false; render(); return;
+    case "save-result-q": {
+      const inp = document.getElementById("q-result");
+      const val = inp ? inp.value.trim().slice(0,60) : "";
+      if(S.result) S.result.question = val;
+      const id = S.result ? (S.result.id || S.result.at) : null;
+      if(id != null){
+        writeHistory(readHistory().map(x=> String(x.id||x.at) === String(id) ? {...x, question: val} : x));
+      }
+      S.editingQ = false;
+      render(); toast(val ? "问题已保存" : "已清空问题");
+      return;
+    }
+    case "edit-q":
+      S.editingId = t.dataset.id; render(); return;
+    case "cancel-q":
+      S.editingId = null; render(); return;
+    case "save-q": {
+      const id = t.dataset.id;
+      const inp = document.getElementById("h-edit-input");
+      const val = inp ? inp.value.trim().slice(0,60) : "";
+      const list = readHistory().map(x=> String(x.id || x.at) === String(id) ? {...x, question: val} : x);
+      writeHistory(list);
+      S.editingId = null;
+      render(); toast(val ? "问题已保存" : "已清空问题");
       return;
     }
     case "del-hist":
@@ -1330,7 +1348,7 @@ app.addEventListener("click", async (e)=>{
     }
     case "ask-other":
       saveResult();
-      S.result = null; S.question = ""; S.spreadId = null; S.method = "random";
+      S.result = null; S.question = ""; S.spreadId = null; S.shuffling = false; S.ready = false;
       S.deck = []; S.drawn = []; S.picked = [];
       S.view = "home";
       render(); toast("已保存到历史记录"); return;
@@ -1385,6 +1403,7 @@ document.addEventListener("keydown", (e)=>{
   if(d==="reset"){ writeHistory([]); S.view="home"; return; }
   if(d==="confirm"){ S.view="history"; S.pending="clear"; return; }
   if(d==="about"){ S.notes="about"; return; }
+  if(d==="edq"){ seed("timeline"); S.editingQ=true; S.view="result"; return; }
   if(d==="shuffle"){ S.spreadId="timeline"; S.question=q; S.deck=buildDeck(); S.shuffling=true; S.view="draw"; return; }
   if(d==="abdraw"){ S.spreadId="ab"; S.question=q; S.deck=buildDeck(); S.view="draw"; return; }
   if(d==="abnum"){ S.spreadId="ab"; S.question=q; S.deck=buildDeck(); S.method="number"; S.picked=[7,42,63,5,19]; S.view="draw"; return; }
